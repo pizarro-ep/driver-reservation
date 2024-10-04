@@ -1,0 +1,61 @@
+﻿@model LoginDTO
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-10">
+            <div class="row g-0">
+                <div class="col-12 col-md-6">
+                    <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy" src="~/img/System.jpg" alt="Welcome back you've been missed!">
+                </div>
+                <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                    <div class="col-12 col-lg-11 col-xl-10">
+                        <div class="d-flex g-2">
+                            <div class="w-100">
+                                <h3 class="mb-4">Iniciar Sesión</h3>
+                            </div>
+                            <div class="w-100">
+                                <p class="social-media d-flex justify-content-end">
+                                    <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+                                    <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <form method="post">
+                            <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" class="form-control">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" class="form-control">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-info rounded submit px-3">Iniciar Sesión</button>
+                            </div>
+                            <div class="form-group d-md-flex g-2">
+                                <div class="text-left">
+                                    <label asp-for="RememberMe" class="checkbox-wrap checkbox-primary mb-0">
+                                        <input asp-for="RememberMe">
+                                        @Html.DisplayNameFor(m => m.RememberMe)
+                                    </label>
+                                </div>
+                                <div class="text-md-right">
+                                    <a href="#">¿Has olvidado tu contraseña?</a>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="text-center">¿No estas registrado? <a asp-controller="Account" asp-action="Register" asp->Registrar</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

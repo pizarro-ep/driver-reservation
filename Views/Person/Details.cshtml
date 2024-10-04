@@ -1,0 +1,52 @@
+﻿@model Transport.Models.PersonDTO
+
+@{
+    ViewData["Title"] = "Detalles | Persona ";
+}
+
+<h1>Detalles de persona</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Dni)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Dni)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Surnames)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Surnames)
+        </dd>
+        <hr>
+        <dt class="col-sm-3">
+            @*Nombre de Usuario*@
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-9">
+            @*(Model.Users != null ? Model.Users.UserName : string.Empty)*@
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-3">
+            @*Correo electrónico*@
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-9">
+            @*@(Model.Users != null ? Model.Users.Email : string.Empty)*@
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Dni" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Editar</a>
+    <a asp-action="Index" class="btn btn-outline-danger"><i class="bi bi-arrow-return-left"></i> Volver a lista</a>
+</div>

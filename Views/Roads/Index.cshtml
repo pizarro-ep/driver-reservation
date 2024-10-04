@@ -1,0 +1,53 @@
+﻿@model IEnumerable<RoadDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-secondary">Crear Ruta</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Distance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedDuration)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Distance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedDuration)
+            </td>
+            <td class="d-flex justify-content-around">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning fs-5"><i class="bi bi-pencil-square"></i></a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info fs-5"><i class="bi bi-list-columns-reverse"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger fs-5"><i class="bi bi-trash-fill"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,80 @@
+﻿@model CreateScheduleDTO
+
+@{
+    ViewData["Title"] = "Crear | Horario";
+    var roads = ViewBag.roads as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>();
+}
+
+<h1>Crear Horario</h1> 
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DepartureTime" class="control-label"></label>
+                <input asp-for="DepartureTime" class="form-control" id="departureTime" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalTime" class="control-label"></label>
+                <input asp-for="ArrivalTime" class="form-control" id="arrivalTime" readonly/>
+                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicles" class="control-label"></label>
+                <select asp-for="VehicleID" class="form-control" asp-items="ViewBag.vehicles">
+                    <option value="" selected disabled>-- Selecciona vehiculo --</option>
+                </select>
+                <span asp-validation-for="VehicleID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Roads" class="control-label"></label>
+                <select asp-for="RoadID" class="form-control" id="roadSelect">
+                    <option value="" selected disabled>-- Selecciona ruta --</option>
+                    @foreach (var road in roads ?? Enumerable.Empty<RoadSelectItem>()) {
+                        <option value="@road.Value" data-duration="@road.EstimatedDuration">@road.Text (Duración estimada: @road.EstimatedDuration)</option>
+                    }
+                </select>
+                <span asp-validation-for="RoadID" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Guardar</button>
+                <a asp-action="Index" class="ml-2 btn btn-outline-danger"><i class="bi bi-arrow-return-left"></i> Volver a lista</a>
+            </div>
+        </form>
+    </div>
+</div> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const DOM_departureTime = document.getElementById('departureTime');    // Hora de salida
+        const DOM_arrivalTime = document.getElementById('arrivalTime');        // Hora de llegada
+        const DOM_roadSelect = document.getElementById('roadSelect');               // Lista de 
+
+        // Función para actualizar la hora de llegada
+        function updateArrivalTime() {
+            const selectedOption = DOM_roadSelect.options[DOM_roadSelect.selectedIndex];
+            const duration = selectedOption.getAttribute('data-duration') ?? '00:00:00';
+
+            if (DOM_departureTime && DOM_arrivalTime) { 
+                const departureTime = new Date('1970-01-01T' + DOM_departureTime.value + 'Z');
+                const durationParts = duration.split(':');
+                const durationMinutes = parseInt(durationParts[0], 10) * 60 + parseInt(durationParts[1], 10);
+
+                if (!isNaN(departureTime.getTime()) && !isNaN(durationMinutes)) {
+                    const arrivalTime = new Date(departureTime.getTime() + durationMinutes * 60000);
+                    const hours = arrivalTime.getUTCHours().toString().padStart(2, '0');
+                    const minutes = arrivalTime.getUTCMinutes().toString().padStart(2, '0');
+                    DOM_arrivalTime.value = `${hours}:${minutes}`;
+                } else DOM_arrivalTime.value = ''; 
+            }
+        }
+
+        // Manejador de eventos para el cambio en el campo de selección de rutas
+        DOM_roadSelect.addEventListener('change', updateArrivalTime);
+
+        // Manejador de eventos para el cambio en el campo de hora de salida
+        DOM_departureTime.addEventListener('change', updateArrivalTime);
+    });
+</script>
